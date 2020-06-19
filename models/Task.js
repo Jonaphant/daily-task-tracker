@@ -14,7 +14,7 @@ const TaskSchema = new mongoose.Schema({
   },
   repeatOccurence: {
     type: Number,
-    default: 0,
+    default: 1,
   },
   streak: {
     type: Number,
