@@ -22,9 +22,9 @@ router.get('/', auth, async (req, res) => {
 // @access  private
 router.get('/:id', auth, async (req, res) => {
   try {
-    const task = await Task.find({ user: req.user.id, _id: req.params.id });
+    const task = await Task.findOne({ user: req.user.id, _id: req.params.id });
 
-    if (task.length < 1) res.status(404).json('No task found');
+    if (task.length < 1) res.status(404).json({ msg: 'No task found' });
 
     res.json(task);
   } catch (err) {
@@ -47,6 +47,7 @@ router.post(
 
     const { name, description, isRepeating, repeatOccurence } = req.body;
 
+    // Build an object containing task information.
     const buildTask = {};
     buildTask.user = req.user.id;
     if (name) buildTask.name = name;
@@ -66,5 +67,76 @@ router.post(
     }
   }
 );
+
+// @route   PUT api/tasks/:id
+// @desc    Edit a task
+// @access  private
+router.put(
+  '/:id',
+  [auth, [check('name', 'Name is required').not().isEmpty()]],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const {
+      name,
+      description,
+      isRepeating,
+      repeatOccurence,
+      streak,
+    } = req.body;
+
+    // Build an object containing task information.
+    const buildTask = {};
+    buildTask.user = req.user.id;
+    if (name) buildTask.name = name;
+    if (description) buildTask.description = description;
+    if (isRepeating) buildTask.isRepeating = isRepeating;
+    if (repeatOccurence) buildTask.repeatOccurence = repeatOccurence;
+    if (streak) buildTask.streak = streak;
+
+    try {
+      let task = await Task.findOne({ _id: req.params.id, user: req.user.id });
+
+      if (!task) {
+        return res.status(404).json({ msg: 'No task found.' });
+      }
+
+      // Update the task if one is found
+      task = await Task.findOneAndUpdate(
+        { _id: req.params.id, user: req.user.id },
+        { $set: buildTask },
+        { new: true }
+      );
+
+      res.json(task);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server error');
+    }
+  }
+);
+
+// @route   DELETE api/tasks/:id
+// @desc    Delete a task
+// @access  private
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    let task = await Task.findOne({ _id: req.params.id, user: req.user.id });
+
+    if (!task) {
+      return res.status(404).json({ msg: 'Task not found' });
+    }
+
+    await task.remove();
+
+    res.json({ msg: 'Task removed' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
 
 module.exports = router;
