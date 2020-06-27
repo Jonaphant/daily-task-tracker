@@ -1,13 +1,16 @@
-import React, { Fragment } from 'react';
-import Button from '@material-ui/core/Button';
+import React from 'react';
+import Navbar from './components/layout/Navbar';
+import Login from './components/auth/Login';
+
+// Material UI
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 const App = () => (
-  <Fragment>
-    <h1>App</h1>
-    <Button variant="contained" color="primary">
-      Primary
-    </Button>
-  </Fragment>
+  <React.Fragment>
+    <CssBaseline />
+    <Navbar />
+    <Login />
+  </React.Fragment>
 );
 
 export default App;
