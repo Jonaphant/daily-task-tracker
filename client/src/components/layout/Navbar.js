@@ -10,7 +10,13 @@ const Navbar = () => {
       <Grid
         container
         justify="center"
-        style={{ backgroundColor: 'lightblue', padding: '5px' }}
+        style={{
+          backgroundColor: 'lightblue',
+          padding: '5px',
+          position: 'fixed',
+          zIndex: 1,
+          opacity: 0.9,
+        }}
       >
         <Grid item container xs={12} spacing={1}>
           <Grid item xs={6}>
