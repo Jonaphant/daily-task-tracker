@@ -1,4 +1,26 @@
-a {
-  color: darkblue;
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap');
+
+.navbar {
+  background-color: #dc143c;
+  padding: 5px;
+  position: fixed;
+  z-index: 1;
+  border-bottom: 1px solid black;
+}
+
+.navbar a {
+  color: white;
   text-decoration: none;
+}
+
+.navbar .head {
+  font-family: 'Raleway', sans-serif;
+}
+
+.theme-color {
+  background-color: #9370db;
+}
+
+.fullheight {
+  height: 100vh;
 }

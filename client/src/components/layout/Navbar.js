@@ -7,26 +7,25 @@ import Typography from '@material-ui/core/Typography';
 const Navbar = () => {
   return (
     <React.Fragment>
-      <Grid
-        container
-        justify="center"
-        style={{
-          backgroundColor: 'lightblue',
-          padding: '5px',
-          position: 'fixed',
-          zIndex: 1,
-          opacity: 0.9,
-        }}
-      >
+      <Grid container className="navbar" justify="center">
         <Grid item container xs={12} spacing={1}>
-          <Grid item xs={6}>
+          <Grid item xs={12} sm={6}>
             <ButtonBase>
               <Link to="/">
-                <Typography variant="h3">Daily Task Tracker</Typography>{' '}
+                <Typography variant="h3" className="head">
+                  Daily Task Tracker
+                </Typography>{' '}
               </Link>
             </ButtonBase>
           </Grid>
-          <Grid item container xs={6} justify="flex-end" alignItems="center">
+          <Grid
+            item
+            container
+            xs={12}
+            sm={6}
+            justify="flex-end"
+            alignItems="center"
+          >
             <Grid item container xs={3} justify="space-evenly">
               <Grid item xs={4}>
                 <ButtonBase>
