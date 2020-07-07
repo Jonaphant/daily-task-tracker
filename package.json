@@ -12,7 +12,6 @@
   "author": "Jonathan Sou",
   "license": "MIT",
   "dependencies": {
-    "@material-ui/core": "^4.10.2",
     "bcryptjs": "^2.4.3",
     "config": "^3.3.1",
     "express": "^4.17.1",
