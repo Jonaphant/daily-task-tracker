@@ -1,11 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Abel&family=Montserrat+Alternates:ital,wght@1,500&display=swap');
 
 .navbar {
-  background-color: #dc143c;
+  /* background-color: #dc143c; */
   padding: 5px;
   position: fixed;
   z-index: 1;
-  border-bottom: 1px solid black;
+  /* border-bottom: 1px solid black; */
+  /* opacity: 0.7; */
 }
 
 .navbar a {
@@ -14,7 +15,14 @@
 }
 
 .navbar .head {
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Abel', sans-serif;
+  text-transform: uppercase;
+}
+
+.navbar .variant {
+  font-family: 'Montserrat Alternates', sans-serif;
+  text-transform: uppercase;
+  color: #f50057;
 }
 
 .theme-color {

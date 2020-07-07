@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import LockTwoToneIcon from '@material-ui/icons/LockTwoTone';
-import infographics from './img/infographics.png';
+import Hidden from '@material-ui/core/Hidden';
 
 const Login = () => {
   const onSubmit = (e) => {
@@ -16,23 +16,25 @@ const Login = () => {
 
   return (
     <React.Fragment>
-      <Grid container xs={12} className="fullheight">
-        <Grid
-          item
-          md={7}
-          only="md"
-          style={{
-            background:
-              "url('https://source.unsplash.com//zJDqiEGUCHY') no-repeat center center/cover",
-          }}
-        ></Grid>
+      <Grid
+        container
+        xs={12}
+        className="fullheight"
+        style={{
+          background:
+            "url('https://source.unsplash.com//zJDqiEGUCHY') no-repeat center center/cover",
+        }}
+      >
+        <Hidden smDown>
+          <Grid item md={7}></Grid>
+        </Hidden>
         <Grid
           container
           xs={12}
           md={5}
           justify="center"
           alignItems="center"
-          className="theme-color"
+          // className="theme-color"
         >
           <Box
             bgcolor="background.paper"
