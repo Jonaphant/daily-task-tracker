@@ -1,12 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Abel&family=Montserrat+Alternates:ital,wght@1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,300&display=swap');
+.theme-color {
+  background-color: #394359;
+}
 
+.border {
+  border: 1px solid red;
+}
+
+/* Navbar */
 .navbar {
-  /* background-color: #dc143c; */
   padding: 5px;
   position: fixed;
   z-index: 1;
-  /* border-bottom: 1px solid black; */
-  /* opacity: 0.7; */
 }
 
 .navbar a {
@@ -14,21 +20,20 @@
   text-decoration: none;
 }
 
-.navbar .head {
-  font-family: 'Abel', sans-serif;
-  text-transform: uppercase;
-}
-
 .navbar .variant {
   font-family: 'Montserrat Alternates', sans-serif;
   text-transform: uppercase;
-  color: #f50057;
 }
 
-.theme-color {
-  background-color: #9370db;
+/* Login */
+#lead {
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+}
+#login-dashboard {
+  background: url('./img/login-background.png') no-repeat center center/cover;
 }
 
-.fullheight {
+.full-height {
   height: 100vh;
 }
