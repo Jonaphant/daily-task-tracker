@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { setAlert } from '../../actions/alert';
+import PropTypes from 'prop-types';
+
+// Material UI
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -7,7 +12,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-const Register = () => {
+const Register = ({ setAlert }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -23,7 +28,12 @@ const Register = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(name, email, password, password2);
+    if (password !== password2) {
+      setAlert('Passwords do not match', 'error');
+      console.log('Passwords do not match');
+    } else {
+      // call register action
+    }
   };
 
   return (
@@ -120,4 +130,8 @@ const Register = () => {
   );
 };
 
-export default Register;
+Register.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+};
+
+export default connect(null, { setAlert })(Register);
