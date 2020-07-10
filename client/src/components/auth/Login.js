@@ -16,10 +16,11 @@ const Login = () => {
 
   return (
     <React.Fragment>
-      <Grid container xs={12} className="full-height" id="login-dashboard">
+      <Grid container className="full-height" id="login-dashboard">
         <Hidden smDown>
           <Grid
             container
+            item
             xs={12}
             sm={12}
             md={7}
@@ -39,7 +40,14 @@ const Login = () => {
             </Box>
           </Grid>
         </Hidden>
-        <Grid container xs={12} md={5} justify="center" alignItems="center">
+        <Grid
+          container
+          item
+          xs={12}
+          md={5}
+          justify="center"
+          alignItems="center"
+        >
           <Box
             bgcolor="background.paper"
             borderRadius="borderRadius"
@@ -47,7 +55,7 @@ const Login = () => {
             boxShadow={3}
             p={5}
           >
-            <Grid item container xs={12} direction="column">
+            <Grid container item xs={12} direction="column">
               <Box mx="auto" mb={5}>
                 <Grid container alignItems="center">
                   <LockTwoToneIcon color="secondary" fontSize="large" />
