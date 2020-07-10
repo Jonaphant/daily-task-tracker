@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setAlert } from '../../actions/alert';
 import PropTypes from 'prop-types';
+import { register } from '../../actions/auth';
 
 // Material UI
 import TextField from '@material-ui/core/TextField';
@@ -12,7 +13,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-const Register = ({ setAlert }) => {
+const Register = ({ setAlert, register }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -32,7 +33,7 @@ const Register = ({ setAlert }) => {
       setAlert('Passwords do not match', 'error');
       console.log('Passwords do not match');
     } else {
-      // call register action
+      register({ name, email, password });
     }
   };
 
@@ -132,6 +133,7 @@ const Register = ({ setAlert }) => {
 
 Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
 };
 
-export default connect(null, { setAlert })(Register);
+export default connect(null, { setAlert, register })(Register);
