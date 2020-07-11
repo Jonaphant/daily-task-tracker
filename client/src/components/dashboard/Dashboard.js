@@ -57,7 +57,7 @@ const Dashboard = (props) => {
             </Grid>
           </Grid>
 
-          <Box width="70%" mx="auto">
+          <Box width="70%" mx="auto" my={2} className="border">
             <Table />
           </Box>
         </Grid>
