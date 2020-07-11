@@ -1,18 +1,34 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Box from '@material-ui/core/Box';
+import React, { useState } from 'react';
+import { Link, Redirect } from 'react-router-dom';
+import { login } from '../../actions/auth';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
+// Material UI
+import { TextField, Grid, Typography, Button, Box } from '@material-ui/core';
 import LockTwoToneIcon from '@material-ui/icons/LockTwoTone';
 import Hidden from '@material-ui/core/Hidden';
 
-const Login = () => {
+const Login = ({ login, isAuthenticated }) => {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+
+  const { email, password } = formData;
+
+  const onChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log('Clicked on submit');
+    login({ email, password });
   };
+
+  if (isAuthenticated) {
+    return <Redirect to="/dashboard" />;
+  }
 
   return (
     <React.Fragment>
@@ -29,12 +45,12 @@ const Login = () => {
             direction="column"
           >
             <Box width="75%" ml={9}>
-              <Typography variant="h1" id="lead">
+              <Typography variant="h1" className="lead">
                 Create and Track
               </Typography>{' '}
             </Box>
             <Box width="60%" ml={10} mb={15}>
-              <Typography variant="h2" id="lead">
+              <Typography variant="h2" className="lead">
                 your tasks with a clean, minimalistic interface.
               </Typography>
             </Box>
@@ -69,6 +85,8 @@ const Login = () => {
                     name="email"
                     variant="outlined"
                     fullWidth
+                    onChange={(e) => onChange(e)}
+                    value={email}
                   />
                 </Box>
                 <Box mb={3}>
@@ -78,6 +96,8 @@ const Login = () => {
                     name="password"
                     variant="outlined"
                     fullWidth
+                    onChange={(e) => onChange(e)}
+                    value={password}
                   />
                 </Box>
                 <Box mx="auto" mb={3}>
@@ -102,4 +122,13 @@ const Login = () => {
   );
 };
 
-export default Login;
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
+};
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { login })(Login);

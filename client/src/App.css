@@ -26,9 +26,9 @@
 }
 
 /* Login */
-#lead {
-  font-family: 'Montserrat', sans-serif;
-  color: white;
+.lead {
+  font-family: 'Montserrat', sans-serif !important;
+  color: white !important;
 }
 #login-dashboard {
   background: url('./img/login-background.png') no-repeat center center/cover;
