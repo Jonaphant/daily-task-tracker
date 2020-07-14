@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Table from './Table';
+import EnhancedTable from './EnhancedTable';
 
 // Material UI
 import { Grid, Typography, Button, Box } from '@material-ui/core';
@@ -8,58 +8,44 @@ import { Grid, Typography, Button, Box } from '@material-ui/core';
 const Dashboard = (props) => {
   return (
     <React.Fragment>
-      <Grid
-        container
-        justify="center"
-        alignItems="center"
-        className="theme-color full-height"
-      >
-        <Grid
-          item
-          container
-          //   justify="center"
-          direction="column"
-          //   className="border"
-          style={{ height: '70vh' }}
-        >
+      <Box pt={17}></Box>
+      <Grid item container justify="center">
+        <Grid container item style={{ marginBottom: '10px' }}>
           <Grid
             container
             item
-            // className="border"
-            // style={{ borderColor: 'purple' }}
+            justify="center"
+            alignItems="center"
+            xs={12}
+            md={6}
           >
-            <Grid
-              container
-              item
-              justify="center"
-              alignItems="center"
-              xs={12}
-              md={6}
-              //   className="border"
-            >
-              <Typography variant="h2" className="lead">
-                Dashboard
-              </Typography>
-            </Grid>
-            <Grid
-              container
-              item
-              justify="center"
-              alignItems="center"
-              xs={12}
-              md={6}
-            >
-              <Grid container item xs={5} md={4} lg={3} xl={2} justify="center">
-                <Button variant="contained" color="secondary" fullWidth>
-                  Create Task
-                </Button>
-              </Grid>
+            <Typography variant="h4" className="lead" gutterBottom>
+              Welcome, Jonathan
+            </Typography>
+          </Grid>
+          <Grid
+            container
+            item
+            justify="center"
+            alignItems="center"
+            xs={12}
+            md={6}
+          >
+            <Grid container item xs={5} md={4} lg={3} xl={2} justify="center">
+              <Button
+                variant="contained"
+                color="secondary"
+                size="small"
+                fullWidth
+              >
+                Create Task
+              </Button>
             </Grid>
           </Grid>
-
-          <Box width="70%" mx="auto" my={2} className="border">
-            <Table />
-          </Box>
+        </Grid>
+        <Grid container item xs={8}>
+          <EnhancedTable repeating={false} />
+          <EnhancedTable repeating={true} />
         </Grid>
       </Grid>
     </React.Fragment>

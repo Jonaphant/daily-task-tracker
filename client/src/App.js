@@ -25,7 +25,7 @@ const App = () => {
     <Provider store={store}>
       <Router>
         <React.Fragment>
-          <CssBaseline />
+          {/* <CssBaseline /> */}
           <Navbar />
           <Alert />
           <Switch>

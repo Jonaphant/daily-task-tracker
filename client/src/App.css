@@ -1,17 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@1,500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,300&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #394359;
+}
+
 .theme-color {
   background-color: #394359;
 }
 
-.border {
+.border.green {
+  border: 1px solid green;
+}
+
+.border.red {
   border: 1px solid red;
+}
+
+.border.pink {
+  border: 1px solid pink;
 }
 
 /* Navbar */
 .navbar {
   padding: 5px;
-  position: fixed;
+  position: absolute;
   z-index: 1;
 }
 
