@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 // Material UI
 import { TextField, Grid, Typography, Button, Box } from '@material-ui/core';
-import LockTwoToneIcon from '@material-ui/icons/LockTwoTone';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
 import Hidden from '@material-ui/core/Hidden';
 
 const Login = ({ login, isAuthenticated }) => {
@@ -74,7 +74,7 @@ const Login = ({ login, isAuthenticated }) => {
             <Grid container item xs={12} direction="column">
               <Box mx="auto" mb={5}>
                 <Grid container alignItems="center">
-                  <LockTwoToneIcon color="secondary" fontSize="large" />
+                  <LockOpenIcon color="secondary" fontSize="large" />
                   <Typography variant="h2">Login</Typography>
                 </Grid>
               </Box>

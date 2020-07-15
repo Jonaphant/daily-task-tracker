@@ -4,19 +4,27 @@ import { connect } from 'react-redux';
 import { logout } from '../../actions/auth';
 import PropTypes from 'prop-types';
 
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import ButtonBase from '@material-ui/core/ButtonBase';
-import Typography from '@material-ui/core/Typography';
-import Hidden from '@material-ui/core/Hidden';
-import Button from '@material-ui/core/Button';
+import {
+  Grid,
+  Box,
+  ButtonBase,
+  Typography,
+  Hidden,
+  Button,
+} from '@material-ui/core';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import HowToRegIcon from '@material-ui/icons/HowToReg';
 
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const authLinks = (
     <React.Fragment>
       <Box display="inline">
         <Link to="/dashboard">
-          <Button color="secondary">Dashboard</Button>
+          <Button color="secondary">
+            <AssignmentIcon />
+            <Hidden smDown>Dashboard</Hidden>
+          </Button>
         </Link>
       </Box>
 
@@ -27,7 +35,8 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
             variant="outlined"
             style={{ borderColor: 'white', color: 'white' }}
           >
-            Log Out
+            <ExitToAppIcon />
+            <Hidden smDown>Log Out</Hidden>
           </Button>
         </a>
       </Box>
@@ -52,6 +61,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
             size="large"
             style={{ borderColor: 'white', color: 'white' }}
           >
+            <HowToRegIcon />
             Sign Up
           </Button>
         </Link>
@@ -96,7 +106,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
             <Hidden smDown>
               <Grid item sm={2} lg={3}></Grid>
             </Hidden>
-            <Grid item sm={10} lg={9}>
+            <Grid item sm={12} md={11} lg={10}>
               <Box textAlign="center">
                 {!loading && (
                   <React.Fragment>
