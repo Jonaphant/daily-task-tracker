@@ -45,21 +45,13 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
         alignItems="center"
         className="theme-color full-height"
       >
-        <Grid
-          container
-          item
-          xs={11}
-          sm={6}
-          justify="center"
-          className="border pink"
-        >
+        <Grid container item xs={11} sm={6} justify="center">
           <Box
             bgcolor="background.paper"
             borderRadius="borderRadius"
             width="100%"
             boxShadow={3}
             p={5}
-            className="border red"
           >
             <Grid container direction="column">
               <Box mb={5} textAlign="center">

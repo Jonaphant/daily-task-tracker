@@ -1,5 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { logout } from '../../actions/auth';
+import PropTypes from 'prop-types';
+
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import ButtonBase from '@material-ui/core/ButtonBase';
@@ -7,7 +11,54 @@ import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 import Button from '@material-ui/core/Button';
 
-const Navbar = () => {
+const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
+  const authLinks = (
+    <React.Fragment>
+      <Box display="inline">
+        <Link to="/dashboard">
+          <Button color="secondary">Dashboard</Button>
+        </Link>
+      </Box>
+
+      <Box m={2} display="inline">
+        <a onClick={logout} href="#!">
+          <Button
+            color="secondary"
+            variant="outlined"
+            style={{ borderColor: 'white', color: 'white' }}
+          >
+            Log Out
+          </Button>
+        </a>
+      </Box>
+    </React.Fragment>
+  );
+
+  const guestLinks = (
+    <React.Fragment>
+      <Box display="inline">
+        <Link to="/">
+          <Button color="secondary" size="large">
+            Login
+          </Button>
+        </Link>
+      </Box>
+
+      <Box m={2} display="inline">
+        <Link to="/register">
+          <Button
+            color="secondary"
+            variant="outlined"
+            size="large"
+            style={{ borderColor: 'white', color: 'white' }}
+          >
+            Sign Up
+          </Button>
+        </Link>
+      </Box>
+    </React.Fragment>
+  );
+
   return (
     <React.Fragment>
       <Grid container className="navbar" justify="center">
@@ -43,29 +94,15 @@ const Navbar = () => {
             alignItems="center"
           >
             <Hidden smDown>
-              <Grid item md={4} lg={4}></Grid>
+              <Grid item sm={2} lg={3}></Grid>
             </Hidden>
-            <Grid item sm={8} lg={8}>
+            <Grid item sm={10} lg={9}>
               <Box textAlign="center">
-                <Box display="inline">
-                  <Link to="/">
-                    <Button color="secondary" size="large">
-                      Login
-                    </Button>
-                  </Link>
-                </Box>
-                <Box m={2} display="inline">
-                  <Link to="/register">
-                    <Button
-                      color="secondary"
-                      variant="outlined"
-                      size="large"
-                      style={{ borderColor: 'white', color: 'white' }}
-                    >
-                      Sign Up
-                    </Button>
-                  </Link>
-                </Box>
+                {!loading && (
+                  <React.Fragment>
+                    {isAuthenticated ? authLinks : guestLinks}
+                  </React.Fragment>
+                )}
               </Box>
             </Grid>
           </Grid>
@@ -75,4 +112,13 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+Navbar.propTypes = {
+  logout: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { logout })(Navbar);
