@@ -67,7 +67,7 @@ const Login = ({ login, isAuthenticated }) => {
           <Box
             bgcolor="background.paper"
             borderRadius="borderRadius"
-            width="90%"
+            width="80%"
             boxShadow={3}
             p={5}
           >
