@@ -11,6 +11,11 @@ body {
   background-color: #394359;
 }
 
+.secondary-color {
+  color: #f50057;
+  font-weight: bold;
+}
+
 .border.green {
   border: 1px solid green;
 }
@@ -30,7 +35,7 @@ body {
   z-index: 1;
 }
 
-.navbar a {
+a {
   color: white;
   text-decoration: none;
 }

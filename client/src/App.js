@@ -5,6 +5,7 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Alert from './components/layout/Alert';
 import Dashboard from './components/dashboard/Dashboard';
+import CreateTask from './components/tasks/CreateTask';
 import PrivateRoute from './components/routing/PrivateRoute';
 
 // Redux
@@ -29,6 +30,7 @@ const App = () => {
             <Route exact path="/" component={Login} />
             <Route exact path="/register" component={Register} />
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
+            <PrivateRoute exact path="/createtask" component={CreateTask} />
           </Switch>
         </React.Fragment>
       </Router>

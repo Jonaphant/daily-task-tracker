@@ -36,7 +36,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
             style={{ borderColor: 'white', color: 'white' }}
           >
             <ExitToAppIcon />
-            <Hidden smDown>Log Out</Hidden>
+            <Hidden smDown>Logout</Hidden>
           </Button>
         </a>
       </Box>
