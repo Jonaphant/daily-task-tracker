@@ -113,7 +113,7 @@ const CreateTask = () => {
                 )}
               </Box>
               <Box>
-                <Grid container justify="space-between">
+                <Grid container justify="space-between" alignItems="flex-end">
                   <Link to="/dashboard">
                     <Button variant="contained" size="small">
                       <ArrowBackIcon />
