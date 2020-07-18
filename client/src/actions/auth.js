@@ -6,6 +6,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  CLEAR_TASKS,
 } from './types';
 import axios from 'axios';
 import { setAlert } from './alert';
@@ -49,8 +50,6 @@ export const register = ({ name, email, password }) => async (dispatch) => {
       type: REGISTER_SUCCESS,
       payload: res.data,
     });
-
-    dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -81,8 +80,6 @@ export const login = ({ email, password }) => async (dispatch) => {
       type: LOGIN_SUCCESS,
       payload: res.data,
     });
-
-    dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -99,4 +96,5 @@ export const login = ({ email, password }) => async (dispatch) => {
 // Logout User
 export const logout = () => (dispatch) => {
   dispatch({ type: LOGOUT });
+  dispatch({ type: CLEAR_TASKS });
 };
