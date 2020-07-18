@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { createTask } from '../../actions/task';
 
 import {
   Grid,
@@ -12,15 +15,16 @@ import {
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-const CreateTask = () => {
+const CreateTask = ({ createTask }) => {
+  const history = useHistory();
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    repeating: false,
+    isRepeating: false,
     repeatOccurence: 1,
   });
 
-  const { name, description, repeating, repeatOccurence } = formData;
+  const { name, description, isRepeating, repeatOccurence } = formData;
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -32,7 +36,8 @@ const CreateTask = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(name, description, repeating, repeatOccurence);
+    createTask({ name, description, isRepeating, repeatOccurence });
+    history.push('/dashboard');
   };
 
   return (
@@ -92,14 +97,14 @@ const CreateTask = () => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={repeating}
+                      checked={isRepeating}
                       onChange={onChangeCheck}
-                      name="repeating"
+                      name="isRepeating"
                     />
                   }
-                  label="Repeating"
+                  label="isRepeating"
                 />
-                {repeating && (
+                {isRepeating && (
                   <TextField
                     label="Repeat Occurence"
                     name="repeatOccurence"
@@ -138,4 +143,8 @@ const CreateTask = () => {
   );
 };
 
-export default CreateTask;
+CreateTask.propTypes = {
+  createTask: PropTypes.func.isRequired,
+};
+
+export default connect(null, { createTask })(CreateTask);

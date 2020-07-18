@@ -7,4 +7,6 @@ export const AUTH_ERROR = 'AUTH_ERROR';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
-export const CLEAR_TASKS = 'CLEAR_TASKS'; // @ todo
+export const CLEAR_TASKS = 'CLEAR_TASKS'; // @todo
+export const CREATE_TASK = 'CREATE_TASK';
+export const TASK_ERROR = 'TASK_ERROR';
