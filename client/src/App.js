@@ -11,15 +11,10 @@ import PrivateRoute from './components/routing/PrivateRoute';
 // Redux
 import { Provider } from 'react-redux';
 import store from './store';
-import { loadUser } from './actions/auth';
 
 import './App.css';
 
 const App = () => {
-  useEffect(() => {
-    store.dispatch(loadUser());
-  }, []);
-
   return (
     <Provider store={store}>
       <Router>

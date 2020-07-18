@@ -1,4 +1,6 @@
 import React from 'react';
+
+// Material UI
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -88,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EnhancedTable = ({ repeating }) => {
+const TaskTable = ({ repeatingTable, tasks }) => {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -111,7 +113,7 @@ const EnhancedTable = ({ repeating }) => {
       <Paper className={classes.paper}>
         <Toolbar>
           <Typography variant="h6" id="tableTitle" component="div">
-            {repeating ? 'Repeating Tasks' : 'One Time Tasks'}
+            {repeatingTable ? 'Repeating Tasks' : 'One Time Tasks'}
           </Typography>
         </Toolbar>
         <TableContainer>
@@ -136,26 +138,26 @@ const EnhancedTable = ({ repeating }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {tasks
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
+                .map((task, index) => {
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
+                      onClick={(event) => handleClick(event, task.name)}
                       tabIndex={-1}
-                      key={row.name}
+                      key={task.name}
                     >
                       <TableCell padding="checkbox">
                         <Checkbox inputProps={{ 'aria-labelledby': labelId }} />
                       </TableCell>
                       <TableCell id={labelId} scope="row" padding="none">
-                        {row.name}
+                        {task.name}
                       </TableCell>
-                      <TableCell align="left">{row.description}</TableCell>
-                      <TableCell align="right">{row.streak}</TableCell>
+                      <TableCell align="left">{task.description}</TableCell>
+                      <TableCell align="right">{task.streak}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -165,7 +167,7 @@ const EnhancedTable = ({ repeating }) => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={tasks.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
@@ -176,4 +178,4 @@ const EnhancedTable = ({ repeating }) => {
   );
 };
 
-export default EnhancedTable;
+export default TaskTable;

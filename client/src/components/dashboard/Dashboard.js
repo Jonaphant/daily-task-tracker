@@ -1,15 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import EnhancedTable from './EnhancedTable';
+import TaskTable from './TaskTable';
 import Spinner from '../layout/Spinner';
+import { loadUser } from '../../actions/auth';
+import { getTasks } from '../../actions/task';
 
 // Material UI
 import { Grid, Typography, Button, Box } from '@material-ui/core';
 
-const Dashboard = ({ auth: { user, loading } }) => {
-  return loading || user === null ? (
+const Dashboard = ({
+  loadUser,
+  getTasks,
+  auth: { user, loading },
+  tasks: { tasks },
+}) => {
+  useEffect(() => {
+    // Load user data
+    loadUser();
+    // Get all tasks
+    getTasks();
+  }, [loadUser, getTasks]);
+
+  const oneTimeTasks = tasks.filter((task) => task.isRepeating === false);
+  const repeatingTasks = tasks.filter((task) => task.isRepeating === true);
+
+  return loading || user === null || tasks.length === 0 ? (
     <Spinner />
   ) : (
     <React.Fragment>
@@ -51,8 +68,8 @@ const Dashboard = ({ auth: { user, loading } }) => {
           </Grid>
         </Grid>
         <Grid container item xs={8}>
-          <EnhancedTable repeating={false} />
-          <EnhancedTable repeating={true} />
+          <TaskTable repeatingTable={false} tasks={oneTimeTasks} />
+          <TaskTable repeatingTable={true} tasks={repeatingTasks} />
         </Grid>
       </Grid>
     </React.Fragment>
@@ -61,10 +78,14 @@ const Dashboard = ({ auth: { user, loading } }) => {
 
 Dashboard.propTypes = {
   auth: PropTypes.object.isRequired,
+  tasks: PropTypes.object.isRequired,
+  loadUser: PropTypes.func.isRequired,
+  getTasks: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  tasks: state.task,
 });
 
-export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps, { loadUser, getTasks })(Dashboard);
