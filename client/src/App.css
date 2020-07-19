@@ -57,3 +57,10 @@ a {
 .full-height {
   height: 100vh;
 }
+
+/* Small screen */
+@media only screen and (max-width: 600px) {
+  #edit-button-container {
+    height: 150px;
+  }
+}

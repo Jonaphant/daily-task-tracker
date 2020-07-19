@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 // Material UI
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,42 +14,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
-
-function createData(name, description, streak) {
-  return { name, description, streak };
-}
-
-const rows = [
-  createData(
-    'Feed Dog',
-    'Friday morning feed the dog and refill water bowl. Also, check to see if it has any fleas. May need to consider getting him a new flea/tick collar.',
-    3
-  ),
-  createData(
-    'Clean House',
-    'When I wake up, clean the house starting with my room.',
-    'n/a'
-  ),
-  createData(
-    'Study for physics exam',
-    'I have a physics exam this coming week and need to prepare for it. Form a study group and get to studying.',
-    1
-  ),
-  createData('Fold clothing', '', 3),
-  createData('Code for 2 hours', 'Code for 2 hours everyday', 5),
-  createData(
-    'Prep for interviews',
-    'Spend a couple minutes after breakfast to prep for interviews.',
-    1
-  ),
-  createData('Do homework', 'Finsh homework for this week', 3),
-  createData('Send thank you letter', '', 'n/a'),
-  createData(
-    'Write yelp review',
-    'Write review for the recent noodle shop that i visited.',
-    1
-  ),
-];
 
 const headCells = [
   {
@@ -91,12 +56,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const TaskTable = ({ repeatingTable, tasks }) => {
+  const history = useHistory();
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  const handleClick = (event, name) => {
+  const handleRowClick = (taskId) => {
     // Redirect to edit task page with task id
+    history.push(`/edittask/${taskId}`);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -146,9 +113,9 @@ const TaskTable = ({ repeatingTable, tasks }) => {
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, task.name)}
                       tabIndex={-1}
-                      key={task.name}
+                      key={task._id}
+                      onClick={() => handleRowClick(task._id)}
                     >
                       <TableCell padding="checkbox">
                         <Checkbox inputProps={{ 'aria-labelledby': labelId }} />
