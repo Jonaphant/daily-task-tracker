@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getTask, resetLoading } from '../../actions/task';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getTask, resetLoading, editTask } from '../../actions/task';
 import { loadUser } from '../../actions/auth';
 import Spinner from '../layout/Spinner';
 
@@ -20,12 +20,13 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 const EditTask = ({
   getTask,
+  editTask,
   resetLoading,
   loadUser,
   task: { task, loading },
   match,
 }) => {
-  const history = useHistory();
+  const taskId = match.params.id;
   const [isFirstLoad, setIsFirstLoad] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -44,7 +45,7 @@ const EditTask = ({
       setIsFirstLoad(true);
     }
     loadUser();
-    getTask(match.params.id);
+    getTask(taskId);
 
     if (!loading && task) {
       setFormData({
@@ -69,8 +70,14 @@ const EditTask = ({
   // Save edited task data and redirect back to dashboard
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(name, description, isRepeating, repeatOccurence, streak);
-    // history.push('/dashboard');
+    editTask({
+      taskId,
+      name,
+      description,
+      isRepeating,
+      repeatOccurence,
+      streak,
+    });
   };
 
   return loading || task === null ? (
@@ -149,7 +156,7 @@ const EditTask = ({
                       name="isRepeating"
                     />
                   }
-                  label="isRepeating"
+                  label="Repeating"
                 />
                 {isRepeating && (
                   <TextField
@@ -217,6 +224,7 @@ const EditTask = ({
 
 EditTask.propTypes = {
   getTask: PropTypes.func.isRequired,
+  editTask: PropTypes.func.isRequired,
   resetLoading: PropTypes.func.isRequired,
   loadUser: PropTypes.func.isRequired,
   task: PropTypes.object.isRequired,
@@ -226,6 +234,9 @@ const mapStateToProps = (state) => ({
   task: state.task,
 });
 
-export default connect(mapStateToProps, { getTask, resetLoading, loadUser })(
-  EditTask
-);
+export default connect(mapStateToProps, {
+  getTask,
+  editTask,
+  resetLoading,
+  loadUser,
+})(EditTask);

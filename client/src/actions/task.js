@@ -2,6 +2,7 @@ import {
   GET_TASKS,
   GET_TASK,
   CREATE_TASK,
+  EDIT_TASK,
   TASK_ERROR,
   RESET_TASK_LOAD,
 } from './types';
@@ -82,6 +83,52 @@ export const createTask = ({
     });
 
     dispatch(setAlert('Task Created', 'success'));
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'error')));
+    }
+
+    dispatch({
+      type: TASK_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Edit Task
+export const editTask = ({
+  taskId,
+  name,
+  description,
+  isRepeating,
+  repeatOccurence,
+  streak,
+}) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  const body = JSON.stringify({
+    name,
+    description,
+    isRepeating,
+    repeatOccurence,
+    streak,
+  });
+
+  try {
+    const res = await axios.put(`/api/tasks/${taskId}`, body, config);
+
+    dispatch({
+      type: EDIT_TASK,
+      payload: res.data,
+    });
+
+    dispatch(setAlert('Task saved', 'success'));
   } catch (err) {
     const errors = err.response.data.errors;
 

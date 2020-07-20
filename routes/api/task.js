@@ -91,11 +91,11 @@ router.put(
     // Build an object containing task information.
     const buildTask = {};
     buildTask.user = req.user.id;
-    if (name) buildTask.name = name;
-    if (description) buildTask.description = description;
-    if (isRepeating) buildTask.isRepeating = isRepeating;
-    if (repeatOccurence) buildTask.repeatOccurence = repeatOccurence;
-    if (streak) buildTask.streak = streak;
+    if (name != null) buildTask.name = name;
+    if (description != null) buildTask.description = description;
+    if (isRepeating != null) buildTask.isRepeating = isRepeating;
+    if (repeatOccurence != null) buildTask.repeatOccurence = repeatOccurence;
+    if (streak != null) buildTask.streak = streak;
 
     try {
       let task = await Task.findOne({ _id: req.params.id, user: req.user.id });
