@@ -19,11 +19,16 @@ export default function (state = initialState, action) {
 
   switch (type) {
     case GET_TASK:
-      return {
-        ...state,
-        task: payload,
-        loading: false,
-      };
+      if (JSON.stringify(state.task) === JSON.stringify(payload)) {
+        console.log('same');
+        return { ...state };
+      } else {
+        return {
+          ...state,
+          task: payload,
+          loading: false,
+        };
+      }
     case GET_TASKS:
       return {
         ...state,

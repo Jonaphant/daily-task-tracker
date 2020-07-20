@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getTask } from '../../actions/task';
 import { loadUser } from '../../actions/auth';
+import Spinner from '../layout/Spinner';
 
 import {
   Grid,
@@ -36,11 +37,11 @@ const EditTask = ({ getTask, loadUser, task: { task, loading }, match }) => {
 
     if (!loading && task) {
       setFormData({
-        name: task.name,
-        description: task.description,
-        isRepeating: task.isRepeating,
-        repeatOccurence: task.repeatOccurence,
-        streak: task.streak,
+        name: !task.name ? '' : task.name,
+        description: !task.description ? '' : task.description,
+        isRepeating: !task.isRepeating ? false : task.isRepeating,
+        repeatOccurence: !task.repeatOccurence ? false : task.repeatOccurence,
+        streak: !task.streak ? 0 : task.streak,
       });
     }
   }, [task]);
@@ -61,7 +62,9 @@ const EditTask = ({ getTask, loadUser, task: { task, loading }, match }) => {
     // history.push('/dashboard');
   };
 
-  return (
+  return loading || task === null ? (
+    <Spinner />
+  ) : (
     <React.Fragment>
       <Grid
         container
