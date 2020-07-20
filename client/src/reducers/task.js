@@ -20,8 +20,7 @@ export default function (state = initialState, action) {
   switch (type) {
     case GET_TASK:
       if (JSON.stringify(state.task) === JSON.stringify(payload)) {
-        console.log('same');
-        return { ...state };
+        return { ...state, loading: false };
       } else {
         return {
           ...state,

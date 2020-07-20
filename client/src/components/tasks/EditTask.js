@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getTask } from '../../actions/task';
+import { getTask, resetLoading } from '../../actions/task';
 import { loadUser } from '../../actions/auth';
 import Spinner from '../layout/Spinner';
 
@@ -18,8 +18,15 @@ import {
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-const EditTask = ({ getTask, loadUser, task: { task, loading }, match }) => {
+const EditTask = ({
+  getTask,
+  resetLoading,
+  loadUser,
+  task: { task, loading },
+  match,
+}) => {
   const history = useHistory();
+  const [isFirstLoad, setIsFirstLoad] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -32,6 +39,10 @@ const EditTask = ({ getTask, loadUser, task: { task, loading }, match }) => {
 
   // Load current task data
   useEffect(() => {
+    if (!isFirstLoad) {
+      resetLoading();
+      setIsFirstLoad(true);
+    }
     loadUser();
     getTask(match.params.id);
 
@@ -206,6 +217,7 @@ const EditTask = ({ getTask, loadUser, task: { task, loading }, match }) => {
 
 EditTask.propTypes = {
   getTask: PropTypes.func.isRequired,
+  resetLoading: PropTypes.func.isRequired,
   loadUser: PropTypes.func.isRequired,
   task: PropTypes.object.isRequired,
 };
@@ -214,4 +226,6 @@ const mapStateToProps = (state) => ({
   task: state.task,
 });
 
-export default connect(mapStateToProps, { getTask, loadUser })(EditTask);
+export default connect(mapStateToProps, { getTask, resetLoading, loadUser })(
+  EditTask
+);
