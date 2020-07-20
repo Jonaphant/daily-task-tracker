@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { getTask } from '../../actions/task';
+import { loadUser } from '../../actions/auth';
 
 import {
   Grid,
@@ -15,7 +17,7 @@ import {
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-const EditTask = () => {
+const EditTask = ({ getTask, loadUser, task: { task, loading }, match }) => {
   const history = useHistory();
   const [formData, setFormData] = useState({
     name: '',
@@ -25,12 +27,25 @@ const EditTask = () => {
     streak: 0,
   });
 
-  useEffect(() => {
-    // @todo Get current task
-  }, []);
-
   const { name, description, isRepeating, repeatOccurence, streak } = formData;
 
+  // Load current task data
+  useEffect(() => {
+    loadUser();
+    getTask(match.params.id);
+
+    if (!loading && task) {
+      setFormData({
+        name: task.name,
+        description: task.description,
+        isRepeating: task.isRepeating,
+        repeatOccurence: task.repeatOccurence,
+        streak: task.streak,
+      });
+    }
+  }, [task]);
+
+  // Modify form data on input change
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -39,6 +54,7 @@ const EditTask = () => {
     setFormData({ ...formData, [e.target.name]: e.target.checked });
   };
 
+  // Save edited task data and redirect back to dashboard
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(name, description, isRepeating, repeatOccurence, streak);
@@ -185,6 +201,14 @@ const EditTask = () => {
   );
 };
 
-EditTask.propTypes = {};
+EditTask.propTypes = {
+  getTask: PropTypes.func.isRequired,
+  loadUser: PropTypes.func.isRequired,
+  task: PropTypes.object.isRequired,
+};
 
-export default connect(null)(EditTask);
+const mapStateToProps = (state) => ({
+  task: state.task,
+});
+
+export default connect(mapStateToProps, { getTask, loadUser })(EditTask);

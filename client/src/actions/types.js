@@ -11,3 +11,5 @@ export const CLEAR_TASKS = 'CLEAR_TASKS'; // @todo
 export const CREATE_TASK = 'CREATE_TASK';
 export const TASK_ERROR = 'TASK_ERROR';
 export const GET_TASKS = 'GET_TASKS';
+export const GET_TASK = 'GET_TASK';
+export const RESET_TASK_LOAD = 'RESET_TASK_LOAD';

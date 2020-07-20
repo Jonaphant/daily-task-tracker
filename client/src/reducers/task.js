@@ -2,7 +2,9 @@ import {
   CREATE_TASK,
   CLEAR_TASKS,
   GET_TASKS,
+  GET_TASK,
   TASK_ERROR,
+  RESET_TASK_LOAD,
 } from '../actions/types';
 
 const initialState = {
@@ -16,6 +18,12 @@ export default function (state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
+    case GET_TASK:
+      return {
+        ...state,
+        task: payload,
+        loading: false,
+      };
     case GET_TASKS:
       return {
         ...state,
@@ -27,6 +35,11 @@ export default function (state = initialState, action) {
         ...state,
         tasks: [payload, ...state.tasks],
         loading: false,
+      };
+    case RESET_TASK_LOAD:
+      return {
+        ...state,
+        loading: true,
       };
     case TASK_ERROR:
       return {
