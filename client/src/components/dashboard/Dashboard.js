@@ -1,22 +1,31 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import TaskTable from './TaskTable';
 import Spinner from '../layout/Spinner';
 import { loadUser } from '../../actions/auth';
-import { getTasks } from '../../actions/task';
+import { getTasks, resetLoading } from '../../actions/task';
 
 // Material UI
 import { Grid, Typography, Button, Box } from '@material-ui/core';
 
+// import Particles from 'react-particles-js';
+
 const Dashboard = ({
   loadUser,
   getTasks,
+  resetLoading,
   auth: { user, loading },
-  tasks: { tasks },
+  tasks: { tasks, loadingTasks },
 }) => {
+  const [isFirstLoad, setIsFirstLoad] = useState(false);
+
   useEffect(() => {
+    if (!isFirstLoad) {
+      resetLoading();
+      setIsFirstLoad(true);
+    }
     // Load user data
     loadUser();
     // Get all tasks
@@ -26,7 +35,7 @@ const Dashboard = ({
   const oneTimeTasks = tasks.filter((task) => task.isRepeating === false);
   const repeatingTasks = tasks.filter((task) => task.isRepeating === true);
 
-  return loading || user === null || tasks.length === 0 ? (
+  return loading || loadingTasks || user === null ? (
     <Spinner />
   ) : (
     <React.Fragment>
@@ -68,8 +77,30 @@ const Dashboard = ({
           </Grid>
         </Grid>
         <Grid container item xs={8}>
-          <TaskTable repeatingTable={false} tasks={oneTimeTasks} />
-          <TaskTable repeatingTable={true} tasks={repeatingTasks} />
+          {tasks.length === 0 ? (
+            <Box mt={10} textAlign="center">
+              <Typography variant="h1" id="dashboard-lead">
+                Create your first task to get started!
+              </Typography>
+            </Box>
+          ) : oneTimeTasks.length !== 0 && repeatingTasks.length !== 0 ? (
+            <React.Fragment>
+              <TaskTable repeatingTable={false} tasks={oneTimeTasks} />
+              <TaskTable repeatingTable={true} tasks={repeatingTasks} />
+            </React.Fragment>
+          ) : oneTimeTasks.length !== 0 ? (
+            <TaskTable repeatingTable={false} tasks={oneTimeTasks} />
+          ) : (
+            repeatingTasks.length !== 0 && (
+              <TaskTable repeatingTable={true} tasks={repeatingTasks} />
+            )
+          )}
+          {/* {oneTimeTasks.length !== 0 && (
+            <TaskTable repeatingTable={false} tasks={oneTimeTasks} />
+          )}
+          {repeatingTasks.length !== 0 && (
+            <TaskTable repeatingTable={true} tasks={repeatingTasks} />
+          )} */}
         </Grid>
       </Grid>
     </React.Fragment>
@@ -81,6 +112,7 @@ Dashboard.propTypes = {
   tasks: PropTypes.object.isRequired,
   loadUser: PropTypes.func.isRequired,
   getTasks: PropTypes.func.isRequired,
+  resetLoading: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -88,4 +120,6 @@ const mapStateToProps = (state) => ({
   tasks: state.task,
 });
 
-export default connect(mapStateToProps, { loadUser, getTasks })(Dashboard);
+export default connect(mapStateToProps, { loadUser, getTasks, resetLoading })(
+  Dashboard
+);

@@ -4,6 +4,7 @@ import {
   GET_TASKS,
   GET_TASK,
   EDIT_TASK,
+  DELETE_TASK,
   TASK_ERROR,
   RESET_TASK_LOAD,
 } from '../actions/types';
@@ -11,7 +12,7 @@ import {
 const initialState = {
   tasks: [],
   task: null,
-  loading: true,
+  loadingTasks: true,
   error: {},
 };
 
@@ -22,25 +23,25 @@ export default function (state = initialState, action) {
     case GET_TASK:
       // Upating task only if they are different to stop useEffect from looping on every "change".
       if (JSON.stringify(state.task) === JSON.stringify(payload)) {
-        return { ...state, loading: false };
+        return { ...state, loadingTasks: false };
       } else {
         return {
           ...state,
           task: payload,
-          loading: false,
+          loadingTasks: false,
         };
       }
     case GET_TASKS:
       return {
         ...state,
         tasks: payload,
-        loading: false,
+        loadingTasks: false,
       };
     case CREATE_TASK:
       return {
         ...state,
         tasks: [payload, ...state.tasks],
-        loading: false,
+        loadingTasks: false,
       };
     case EDIT_TASK:
       return {
@@ -58,25 +59,32 @@ export default function (state = initialState, action) {
             : task
         ),
         task: payload,
-        loading: false,
+        loadingTasks: false,
+      };
+    case DELETE_TASK:
+      return {
+        ...state,
+        tasks: state.tasks.filter((task) => task._id !== payload),
+        task: [],
+        loadingTasks: false,
       };
     case RESET_TASK_LOAD:
       return {
         ...state,
-        loading: true,
+        loadingTasks: true,
       };
     case TASK_ERROR:
       return {
         ...state,
         error: payload,
-        loading: false,
+        loadingTasks: false,
       };
     case CLEAR_TASKS:
       return {
         ...state,
         tasks: [],
         task: null,
-        loading: false,
+        loadingTasks: false,
       };
     default:
       return state;

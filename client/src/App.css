@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@1,500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
 
 body {
   margin: 0;
@@ -56,6 +57,13 @@ a {
 
 .full-height {
   height: 100vh;
+}
+
+/* Dashboard */
+#dashboard-lead {
+  font-family: 'Architects Daughter', cursive;
+  color: white;
+  opacity: 0.9;
 }
 
 /* Small screen */

@@ -3,6 +3,7 @@ import {
   GET_TASK,
   CREATE_TASK,
   EDIT_TASK,
+  DELETE_TASK,
   TASK_ERROR,
   RESET_TASK_LOAD,
 } from './types';
@@ -129,6 +130,31 @@ export const editTask = ({
     });
 
     dispatch(setAlert('Task saved', 'success'));
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'error')));
+    }
+
+    dispatch({
+      type: TASK_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Delete task
+export const deleteTask = (id) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`/api/tasks/${id}`);
+
+    dispatch({
+      type: DELETE_TASK,
+      payload: id,
+    });
+
+    dispatch(setAlert(res.data.msg, 'success'));
   } catch (err) {
     const errors = err.response.data.errors;
 

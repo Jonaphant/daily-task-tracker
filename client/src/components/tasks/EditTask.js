@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getTask, resetLoading, editTask } from '../../actions/task';
+import {
+  getTask,
+  resetLoading,
+  editTask,
+  deleteTask,
+} from '../../actions/task';
 import { loadUser } from '../../actions/auth';
 import Spinner from '../layout/Spinner';
 
@@ -21,9 +26,10 @@ import DeleteIcon from '@material-ui/icons/Delete';
 const EditTask = ({
   getTask,
   editTask,
+  deleteTask,
   resetLoading,
   loadUser,
-  task: { task, loading },
+  task: { task, loadingTasks },
   match,
 }) => {
   const taskId = match.params.id;
@@ -47,7 +53,7 @@ const EditTask = ({
     loadUser();
     getTask(taskId);
 
-    if (!loading && task) {
+    if (!loadingTasks && task) {
       setFormData({
         name: !task.name ? '' : task.name,
         description: !task.description ? '' : task.description,
@@ -67,7 +73,7 @@ const EditTask = ({
     setFormData({ ...formData, [e.target.name]: e.target.checked });
   };
 
-  // Save edited task data and redirect back to dashboard
+  // Save edited task data
   const onSubmit = (e) => {
     e.preventDefault();
     editTask({
@@ -80,7 +86,13 @@ const EditTask = ({
     });
   };
 
-  return loading || task === null ? (
+  // Delete task and redirect to dashboard
+  const onDeleteClick = () => {
+    deleteTask(taskId);
+    // console.log('delete');
+  };
+
+  return loadingTasks || task === null ? (
     <Spinner />
   ) : (
     <React.Fragment>
@@ -206,6 +218,7 @@ const EditTask = ({
                         variant="contained"
                         size="small"
                         fullWidth
+                        onClick={() => onDeleteClick()}
                       >
                         <DeleteIcon />
                         Delete
@@ -225,6 +238,7 @@ const EditTask = ({
 EditTask.propTypes = {
   getTask: PropTypes.func.isRequired,
   editTask: PropTypes.func.isRequired,
+  deleteTask: PropTypes.func.isRequired,
   resetLoading: PropTypes.func.isRequired,
   loadUser: PropTypes.func.isRequired,
   task: PropTypes.object.isRequired,
@@ -237,6 +251,7 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   getTask,
   editTask,
+  deleteTask,
   resetLoading,
   loadUser,
 })(EditTask);

@@ -61,9 +61,13 @@ const TaskTable = ({ repeatingTable, tasks }) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  const handleRowClick = (taskId) => {
-    // Redirect to edit task page with task id
-    history.push(`/edittask/${taskId}`);
+  const handleRowClick = (e, taskId) => {
+    if (e.target.type === 'checkbox') {
+      // Delete or disable task
+    } else {
+      // Redirect to edit task page with task id
+      history.push(`/edittask/${taskId}`);
+    }
   };
 
   const handleChangePage = (event, newPage) => {
@@ -115,7 +119,8 @@ const TaskTable = ({ repeatingTable, tasks }) => {
                       hover
                       tabIndex={-1}
                       key={task._id}
-                      onClick={() => handleRowClick(task._id)}
+                      onClick={(e) => handleRowClick(e, task._id)}
+                      style={{ cursor: 'pointer' }}
                     >
                       <TableCell padding="checkbox">
                         <Checkbox inputProps={{ 'aria-labelledby': labelId }} />
