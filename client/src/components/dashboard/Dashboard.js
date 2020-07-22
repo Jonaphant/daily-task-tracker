@@ -95,12 +95,6 @@ const Dashboard = ({
               <TaskTable repeatingTable={true} tasks={repeatingTasks} />
             )
           )}
-          {/* {oneTimeTasks.length !== 0 && (
-            <TaskTable repeatingTable={false} tasks={oneTimeTasks} />
-          )}
-          {repeatingTasks.length !== 0 && (
-            <TaskTable repeatingTable={true} tasks={repeatingTasks} />
-          )} */}
         </Grid>
       </Grid>
     </React.Fragment>

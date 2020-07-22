@@ -89,7 +89,6 @@ const EditTask = ({
   // Delete task and redirect to dashboard
   const onDeleteClick = () => {
     deleteTask(taskId);
-    // console.log('delete');
   };
 
   return loadingTasks || task === null ? (
@@ -177,7 +176,7 @@ const EditTask = ({
                     type="number"
                     variant="outlined"
                     size="small"
-                    helperText="Enter the amount of days in between each occurence"
+                    helperText="Ex: 1 is every day , 2 is every other day , 3 is every three days and so on."
                     value={repeatOccurence}
                     onChange={(e) => onChange(e)}
                   />

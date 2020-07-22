@@ -37,7 +37,7 @@ const CreateTask = ({ createTask }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     createTask({ name, description, isRepeating, repeatOccurence });
-    history.push('/dashboard');
+    setTimeout(history.push('/dashboard'), 5000);
   };
 
   return (
@@ -111,7 +111,7 @@ const CreateTask = ({ createTask }) => {
                     type="number"
                     variant="outlined"
                     size="small"
-                    helperText="Enter the amount of days in between each occurence"
+                    helperText="Ex: 1 is every day , 2 is every other day , 3 is every three days and so on."
                     value={repeatOccurence}
                     onChange={(e) => onChange(e)}
                   />

@@ -66,6 +66,20 @@ a {
   opacity: 0.9;
 }
 
+.table-rows {
+  cursor: pointer;
+}
+
+.table-rows:hover {
+  background-color: #ffcccb;
+}
+
+.table-rows,
+.disabled {
+  cursor: default;
+  background-color: darkgray;
+}
+
 /* Small screen */
 @media only screen and (max-width: 600px) {
   #edit-button-container {

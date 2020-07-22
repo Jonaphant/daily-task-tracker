@@ -129,7 +129,7 @@ export const editTask = ({
       payload: res.data,
     });
 
-    dispatch(setAlert('Task saved', 'success'));
+    dispatch(setAlert('Task Saved', 'success'));
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -145,7 +145,7 @@ export const editTask = ({
 };
 
 // Delete task
-export const deleteTask = (id) => async (dispatch) => {
+export const deleteTask = (id, completed = false) => async (dispatch) => {
   try {
     const res = await axios.delete(`/api/tasks/${id}`);
 
@@ -154,7 +154,11 @@ export const deleteTask = (id) => async (dispatch) => {
       payload: id,
     });
 
-    dispatch(setAlert(res.data.msg, 'success'));
+    if (completed) {
+      dispatch(setAlert('Task Completed', 'success'));
+    } else {
+      dispatch(setAlert(res.data.msg, 'success'));
+    }
   } catch (err) {
     const errors = err.response.data.errors;
 

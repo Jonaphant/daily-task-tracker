@@ -1,5 +1,8 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { deleteTask } from '../../actions/task';
 
 // Material UI
 import { makeStyles } from '@material-ui/core/styles';
@@ -55,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TaskTable = ({ repeatingTable, tasks }) => {
+const TaskTable = ({ repeatingTable, tasks, deleteTask }) => {
   const history = useHistory();
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
@@ -63,7 +66,9 @@ const TaskTable = ({ repeatingTable, tasks }) => {
 
   const handleRowClick = (e, taskId) => {
     if (e.target.type === 'checkbox') {
-      // Delete or disable task
+      if (!repeatingTable) {
+        deleteTask(taskId, true);
+      }
     } else {
       // Redirect to edit task page with task id
       history.push(`/edittask/${taskId}`);
@@ -116,11 +121,10 @@ const TaskTable = ({ repeatingTable, tasks }) => {
 
                   return (
                     <TableRow
-                      hover
                       tabIndex={-1}
                       key={task._id}
                       onClick={(e) => handleRowClick(e, task._id)}
-                      style={{ cursor: 'pointer' }}
+                      className="table-rows" // Add disabled class if task is active
                     >
                       <TableCell padding="checkbox">
                         <Checkbox inputProps={{ 'aria-labelledby': labelId }} />
@@ -150,4 +154,8 @@ const TaskTable = ({ repeatingTable, tasks }) => {
   );
 };
 
-export default TaskTable;
+TaskTable.propTypes = {
+  deleteTask: PropTypes.func.isRequired,
+};
+
+export default connect(null, { deleteTask })(TaskTable);
