@@ -76,7 +76,7 @@ a {
 
 .table-rows.disabled {
   cursor: default;
-  background-color: darkgray;
+  background-color: #dddddd;
 }
 
 /* Small screen */

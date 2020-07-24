@@ -124,7 +124,9 @@ const TaskTable = ({ repeatingTable, tasks, deleteTask }) => {
                       tabIndex={-1}
                       key={task._id}
                       onClick={(e) => handleRowClick(e, task._id)}
-                      className="table-rows" // Add disabled class if task is active
+                      className={
+                        task.active ? 'table-rows' : 'table-rows disabled'
+                      }
                     >
                       <TableCell padding="checkbox">
                         <Checkbox inputProps={{ 'aria-labelledby': labelId }} />
