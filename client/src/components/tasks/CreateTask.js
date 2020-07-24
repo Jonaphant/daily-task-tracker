@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { createTask } from '../../actions/task';
 
 import {
@@ -16,15 +17,23 @@ import {
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const CreateTask = ({ createTask }) => {
+  const today = moment(new Date()).format('YYYY-MM-DD');
   const history = useHistory();
   const [formData, setFormData] = useState({
     name: '',
     description: '',
+    startDate: today,
     isRepeating: false,
     repeatOccurence: 1,
   });
 
-  const { name, description, isRepeating, repeatOccurence } = formData;
+  const {
+    name,
+    description,
+    startDate,
+    isRepeating,
+    repeatOccurence,
+  } = formData;
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -36,8 +45,10 @@ const CreateTask = ({ createTask }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    createTask({ name, description, isRepeating, repeatOccurence });
-    setTimeout(history.push('/dashboard'), 5000);
+    createTask({ name, description, startDate, isRepeating, repeatOccurence });
+    setTimeout(() => {
+      history.push('/dashboard');
+    }, 1000);
   };
 
   return (
@@ -92,7 +103,17 @@ const CreateTask = ({ createTask }) => {
                   onChange={(e) => onChange(e)}
                 />
               </Box>
-
+              <Box mb={3}>
+                <TextField
+                  required
+                  type="date"
+                  name="startDate"
+                  label="Start Date"
+                  variant="outlined"
+                  value={startDate}
+                  onChange={(e) => onChange(e)}
+                />
+              </Box>
               <Box mb={3}>
                 <FormControlLabel
                   control={

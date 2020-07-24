@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import {
   getTask,
   resetLoading,
@@ -37,12 +38,20 @@ const EditTask = ({
   const [formData, setFormData] = useState({
     name: '',
     description: '',
+    startDate: '',
     isRepeating: false,
     repeatOccurence: 1,
     streak: 0,
   });
 
-  const { name, description, isRepeating, repeatOccurence, streak } = formData;
+  const {
+    name,
+    description,
+    startDate,
+    isRepeating,
+    repeatOccurence,
+    streak,
+  } = formData;
 
   // Load current task data
   useEffect(() => {
@@ -57,6 +66,7 @@ const EditTask = ({
       setFormData({
         name: !task.name ? '' : task.name,
         description: !task.description ? '' : task.description,
+        startDate: moment.utc(task.startDate).format('YYYY-MM-DD'),
         isRepeating: !task.isRepeating ? false : task.isRepeating,
         repeatOccurence: !task.repeatOccurence ? false : task.repeatOccurence,
         streak: !task.streak ? 0 : task.streak,
@@ -76,10 +86,10 @@ const EditTask = ({
   // Save edited task data
   const onSubmit = (e) => {
     e.preventDefault();
-    editTask({
-      taskId,
+    editTask(taskId, {
       name,
       description,
+      startDate,
       isRepeating,
       repeatOccurence,
       streak,
@@ -143,6 +153,17 @@ const EditTask = ({
                   fullWidth
                   rows={4}
                   value={description}
+                  onChange={(e) => onChange(e)}
+                />
+              </Box>
+              <Box mb={3}>
+                <TextField
+                  required
+                  type="date"
+                  name="startDate"
+                  label="Start Date"
+                  variant="outlined"
+                  value={startDate}
                   onChange={(e) => onChange(e)}
                 />
               </Box>

@@ -45,13 +45,20 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, description, isRepeating, repeatOccurence } = req.body;
+    const {
+      name,
+      description,
+      startDate,
+      isRepeating,
+      repeatOccurence,
+    } = req.body;
 
     // Build an object containing task information.
     const buildTask = {};
     buildTask.user = req.user.id;
     if (name) buildTask.name = name;
     if (description) buildTask.description = description;
+    if (startDate) buildTask.startDate = startDate;
     if (isRepeating) buildTask.isRepeating = isRepeating;
     if (repeatOccurence) buildTask.repeatOccurence = repeatOccurence;
 
@@ -83,6 +90,7 @@ router.put(
     const {
       name,
       description,
+      startDate,
       isRepeating,
       repeatOccurence,
       streak,
@@ -93,6 +101,7 @@ router.put(
     buildTask.user = req.user.id;
     if (name != null) buildTask.name = name;
     if (description != null) buildTask.description = description;
+    if (startDate != null) buildTask.startDate = startDate;
     if (isRepeating != null) buildTask.isRepeating = isRepeating;
     if (repeatOccurence != null) buildTask.repeatOccurence = repeatOccurence;
     if (streak != null) buildTask.streak = streak;
