@@ -35,11 +35,38 @@ export const getTask = (id) => async (dispatch) => {
 
 // Get all tasks
 export const getTasks = () => async (dispatch) => {
+  // Conversion from milliseconds to days
+  const msDay = 1000 * 60 * 60 * 24;
+
+  const today = new Date();
+
   try {
     const res = await axios.get('/api/tasks');
+
+    // Map through res data to add active property
+    const tasks = res.data.map((task) => {
+      let active = false;
+      const startDate = new Date(task.startDate);
+
+      if (today >= startDate) {
+        if (task.isRepeating) {
+          // Make task active if the take falls within its repeat cycle
+          let daysBetweenRepeat = Math.ceil((startDate - today) / msDay);
+
+          if (daysBetweenRepeat % task.repeatOccurence === 0) {
+            active = true;
+          }
+        } else {
+          active = true;
+        }
+      }
+
+      return { ...task, active: active };
+    });
+
     dispatch({
       type: GET_TASKS,
-      payload: res.data,
+      payload: tasks,
     });
   } catch (err) {
     const errors = err.response.data.errors;
@@ -56,27 +83,19 @@ export const getTasks = () => async (dispatch) => {
 };
 
 // Create Task
-export const createTask = ({
-  name,
-  description,
-  isRepeating,
-  repeatOccurence,
-}) => async (dispatch) => {
+export const createTask = (formData) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
     },
   };
 
-  const body = JSON.stringify({
-    name,
-    description,
-    isRepeating,
-    repeatOccurence,
-  });
-
   try {
-    const res = await axios.post('/api/tasks', body, config);
+    const res = await axios.post(
+      '/api/tasks',
+      JSON.stringify(formData),
+      config
+    );
 
     dispatch({
       type: CREATE_TASK,
@@ -99,30 +118,19 @@ export const createTask = ({
 };
 
 // Edit Task
-export const editTask = ({
-  taskId,
-  name,
-  description,
-  isRepeating,
-  repeatOccurence,
-  streak,
-}) => async (dispatch) => {
+export const editTask = (taskId, formData) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
     },
   };
 
-  const body = JSON.stringify({
-    name,
-    description,
-    isRepeating,
-    repeatOccurence,
-    streak,
-  });
-
   try {
-    const res = await axios.put(`/api/tasks/${taskId}`, body, config);
+    const res = await axios.put(
+      `/api/tasks/${taskId}`,
+      JSON.stringify(formData),
+      config
+    );
 
     dispatch({
       type: EDIT_TASK,
