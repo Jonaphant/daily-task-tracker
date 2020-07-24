@@ -132,7 +132,7 @@ router.delete('/:id', auth, async (req, res) => {
 
     await task.remove();
 
-    res.json({ msg: 'Task removed' });
+    res.json({ msg: 'Task Removed' });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
