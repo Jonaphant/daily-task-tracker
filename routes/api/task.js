@@ -128,6 +128,33 @@ router.put(
   }
 );
 
+// @route PUT api/tasks/completed/:id
+// @desc    Edit the isCompleted property of a task
+// @access  private
+router.put('/completed/:id', auth, async (req, res) => {
+  const { isCompleted } = req.body;
+
+  try {
+    let task = await Task.findOne({ _id: req.params.id, user: req.user.id });
+
+    if (!task) {
+      return res.status(404).json({ msg: 'No task found.' });
+    }
+
+    // Update the task if one is found
+    task = await Task.findOneAndUpdate(
+      { _id: req.params.id, user: req.user.id },
+      { isCompleted: isCompleted },
+      { new: true }
+    );
+
+    res.json(task);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
 // @route   DELETE api/tasks/:id
 // @desc    Delete a task
 // @access  private
