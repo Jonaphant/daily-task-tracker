@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import TaskTable from './TaskTable';
+import OneTimeTaskTable from './OneTimeTaskTable';
+import RepeatTaskTable from './RepeatTaskTable';
 import Spinner from '../layout/Spinner';
 import { loadUser } from '../../actions/auth';
 import { getTasks, resetLoading } from '../../actions/task';
@@ -85,14 +86,14 @@ const Dashboard = ({
             </Box>
           ) : oneTimeTasks.length !== 0 && repeatingTasks.length !== 0 ? (
             <React.Fragment>
-              <TaskTable repeatingTable={false} tasks={oneTimeTasks} />
-              <TaskTable repeatingTable={true} tasks={repeatingTasks} />
+              <OneTimeTaskTable tasks={oneTimeTasks} />
+              <RepeatTaskTable tasks={repeatingTasks} />
             </React.Fragment>
           ) : oneTimeTasks.length !== 0 ? (
-            <TaskTable repeatingTable={false} tasks={oneTimeTasks} />
+            <OneTimeTaskTable tasks={oneTimeTasks} />
           ) : (
             repeatingTasks.length !== 0 && (
-              <TaskTable repeatingTable={true} tasks={repeatingTasks} />
+              <RepeatTaskTable tasks={repeatingTasks} />
             )
           )}
         </Grid>
