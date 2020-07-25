@@ -45,6 +45,7 @@ const CreateTask = ({ createTask }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+
     createTask({ name, description, startDate, isRepeating, repeatOccurence });
     setTimeout(() => {
       history.push('/dashboard');
@@ -133,6 +134,7 @@ const CreateTask = ({ createTask }) => {
                         name="startDate"
                         label="Start Date"
                         variant="outlined"
+                        inputProps={{ min: today }}
                         value={startDate}
                         onChange={(e) => onChange(e)}
                       />

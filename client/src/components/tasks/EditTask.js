@@ -33,6 +33,7 @@ const EditTask = ({
   task: { task, loadingTasks },
   match,
 }) => {
+  const today = moment(new Date()).format('YYYY-MM-DD');
   const taskId = match.params.id;
   const [isFirstLoad, setIsFirstLoad] = useState(false);
   const [formData, setFormData] = useState({
@@ -188,6 +189,7 @@ const EditTask = ({
                         label="Start Date"
                         variant="outlined"
                         size="small"
+                        inputProps={{ min: today }}
                         value={startDate}
                         onChange={(e) => onChange(e)}
                       />
