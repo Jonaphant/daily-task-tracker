@@ -104,17 +104,6 @@ const CreateTask = ({ createTask }) => {
                 />
               </Box>
               <Box mb={3}>
-                <TextField
-                  required
-                  type="date"
-                  name="startDate"
-                  label="Start Date"
-                  variant="outlined"
-                  value={startDate}
-                  onChange={(e) => onChange(e)}
-                />
-              </Box>
-              <Box mb={3}>
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -126,16 +115,29 @@ const CreateTask = ({ createTask }) => {
                   label="isRepeating"
                 />
                 {isRepeating && (
-                  <TextField
-                    label="Repeat Occurence"
-                    name="repeatOccurence"
-                    type="number"
-                    variant="outlined"
-                    size="small"
-                    helperText="Ex: 1 is every day , 2 is every other day , 3 is every three days and so on."
-                    value={repeatOccurence}
-                    onChange={(e) => onChange(e)}
-                  />
+                  <React.Fragment>
+                    <TextField
+                      label="Repeat Occurence"
+                      name="repeatOccurence"
+                      type="number"
+                      variant="outlined"
+                      size="small"
+                      helperText="Ex: 1 is every day , 2 is every other day , 3 is every three days and so on."
+                      value={repeatOccurence}
+                      onChange={(e) => onChange(e)}
+                    />
+                    <Box mt={3}>
+                      <TextField
+                        required
+                        type="date"
+                        name="startDate"
+                        label="Start Date"
+                        variant="outlined"
+                        value={startDate}
+                        onChange={(e) => onChange(e)}
+                      />
+                    </Box>
+                  </React.Fragment>
                 )}
               </Box>
               <Box>
