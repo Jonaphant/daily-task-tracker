@@ -1,5 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
+import { editIsCompleted } from '../../actions/task';
 
 // Material UI
 import { makeStyles } from '@material-ui/core/styles';
@@ -55,15 +58,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RepeatTaskTable = ({ tasks }) => {
+const RepeatTaskTable = ({ editIsCompleted, tasks }) => {
   const history = useHistory();
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
+  // const [checkBox, toggleCheckBox] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  const handleRowClick = (e, taskId) => {
+  const handleRowClick = (e, taskId, isCompleted) => {
     if (e.target.type === 'checkbox') {
       // Make task complete
+      editIsCompleted(taskId, { isCompleted: !isCompleted });
     } else {
       // Redirect to edit task page with task id
       history.push(`/edittask/${taskId}`);
@@ -118,13 +123,22 @@ const RepeatTaskTable = ({ tasks }) => {
                     <TableRow
                       tabIndex={-1}
                       key={task._id}
-                      onClick={(e) => handleRowClick(e, task._id)}
+                      onClick={(e) =>
+                        handleRowClick(e, task._id, task.isCompleted)
+                      }
                       className={
-                        task.active ? 'table-rows' : 'table-rows disabled'
+                        // task.isCompleted ? 'table-rows disabled' : 'table-rows'
+                        task.active && !task.isCompleted
+                          ? 'table-rows'
+                          : 'table-rows disabled'
                       }
                     >
                       <TableCell padding="checkbox">
-                        <Checkbox inputProps={{ 'aria-labelledby': labelId }} />
+                        <Checkbox
+                          inputProps={{ 'aria-labelledby': labelId }}
+                          checked={task.isCompleted}
+                          disabled={task.isCompleted}
+                        />
                       </TableCell>
                       <TableCell id={labelId} scope="row" padding="none">
                         {task.name}
@@ -151,4 +165,8 @@ const RepeatTaskTable = ({ tasks }) => {
   );
 };
 
-export default RepeatTaskTable;
+RepeatTaskTable.propTypes = {
+  editIsCompleted: PropTypes.func.isRequired,
+};
+
+export default connect(null, { editIsCompleted })(RepeatTaskTable);

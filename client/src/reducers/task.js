@@ -52,9 +52,11 @@ export default function (state = initialState, action) {
                 ...task,
                 name: payload.name,
                 description: payload.description,
+                startDate: payload.startDate,
                 streak: payload.streak,
                 isRepeating: payload.isRepeating,
                 repeatOccurence: payload.repeatOccurence,
+                isCompleted: payload.isCompleted,
               }
             : task
         ),
