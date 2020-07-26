@@ -51,6 +51,9 @@ router.post(
       startDate,
       isRepeating,
       repeatOccurence,
+      isCompleted,
+      streak,
+      streakDate,
     } = req.body;
 
     // Build an object containing task information.
@@ -61,6 +64,9 @@ router.post(
     if (startDate) buildTask.startDate = startDate;
     if (isRepeating) buildTask.isRepeating = isRepeating;
     if (repeatOccurence) buildTask.repeatOccurence = repeatOccurence;
+    if (isCompleted != null) buildTask.isCompleted = isCompleted;
+    if (streak != null) buildTask.streak = streak;
+    if (streakDate != null) buildTask.streakDate = streakDate;
 
     try {
       const newTask = new Task(buildTask);
@@ -93,7 +99,9 @@ router.put(
       startDate,
       isRepeating,
       repeatOccurence,
+      isCompleted,
       streak,
+      streakDate,
     } = req.body;
 
     // Build an object containing task information.
@@ -104,7 +112,9 @@ router.put(
     if (startDate != null) buildTask.startDate = startDate;
     if (isRepeating != null) buildTask.isRepeating = isRepeating;
     if (repeatOccurence != null) buildTask.repeatOccurence = repeatOccurence;
+    if (isCompleted != null) buildTask.isCompleted = isCompleted;
     if (streak != null) buildTask.streak = streak;
+    if (streakDate != null) buildTask.streakDate = streakDate;
 
     try {
       let task = await Task.findOne({ _id: req.params.id, user: req.user.id });
@@ -127,33 +137,6 @@ router.put(
     }
   }
 );
-
-// @route PUT api/tasks/completed/:id
-// @desc    Edit the isCompleted property of a task
-// @access  private
-router.put('/completed/:id', auth, async (req, res) => {
-  const { isCompleted } = req.body;
-
-  try {
-    let task = await Task.findOne({ _id: req.params.id, user: req.user.id });
-
-    if (!task) {
-      return res.status(404).json({ msg: 'No task found.' });
-    }
-
-    // Update the task if one is found
-    task = await Task.findOneAndUpdate(
-      { _id: req.params.id, user: req.user.id },
-      { isCompleted: isCompleted },
-      { new: true }
-    );
-
-    res.json(task);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server error');
-  }
-});
 
 // @route   DELETE api/tasks/:id
 // @desc    Delete a task

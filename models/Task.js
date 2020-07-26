@@ -24,6 +24,9 @@ const TaskSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  streakDate: {
+    type: Date,
+  },
   isCompleted: {
     type: Boolean,
     default: false,
