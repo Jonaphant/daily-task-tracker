@@ -54,6 +54,7 @@ export default function (state = initialState, action) {
                 description: payload.description,
                 startDate: payload.startDate,
                 streak: payload.streak,
+                streakDate: payload.streakDate,
                 isRepeating: payload.isRepeating,
                 repeatOccurence: payload.repeatOccurence,
                 isCompleted: payload.isCompleted,

@@ -65,13 +65,29 @@ const RepeatTaskTable = ({ editTask, tasks }) => {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleRowClick = (e, task) => {
+    const { _id, isCompleted, streak, streakDate } = task;
+    let newStreak;
+    let newStreakDate;
+
     if (e.target.type === 'checkbox') {
-      // @todo Handle streak/streak date updates
+      // Update streak date
+      if (streakDate === null || streak === 0) {
+        newStreakDate = new Date();
+      }
+
+      // Increment streak
+      newStreak = streak + 1;
+
       // Make task complete
-      editTask(task._id, { ...task, isCompleted: !task.isCompleted });
+      editTask(_id, {
+        ...task,
+        isCompleted: !isCompleted,
+        streak: newStreak,
+        streakDate: newStreakDate,
+      });
     } else {
       // Redirect to edit task page with task id
-      history.push(`/edittask/${task._id}`);
+      history.push(`/edittask/${_id}`);
     }
   };
 
