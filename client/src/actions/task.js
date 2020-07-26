@@ -137,42 +137,7 @@ export const editTask = (taskId, formData) => async (dispatch) => {
       payload: res.data,
     });
 
-    dispatch(setAlert('Task Saved', 'success'));
-  } catch (err) {
-    const errors = err.response.data.errors;
-
-    if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'error')));
-    }
-
-    dispatch({
-      type: TASK_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
-  }
-};
-
-// Edit isCompleted
-export const editIsCompleted = (taskId, formData) => async (dispatch) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
-  try {
-    const res = await axios.put(
-      `/api/tasks/completed/${taskId}`,
-      JSON.stringify(formData),
-      config
-    );
-
-    dispatch({
-      type: EDIT_TASK,
-      payload: res.data,
-    });
-
-    // dispatch(setAlert('Task Completed', 'success'));
+    dispatch(setAlert('Task Updated', 'success'));
   } catch (err) {
     const errors = err.response.data.errors;
 

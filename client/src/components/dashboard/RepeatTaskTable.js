@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import { editIsCompleted } from '../../actions/task';
+import { editTask } from '../../actions/task';
 
 // Material UI
 import { makeStyles } from '@material-ui/core/styles';
@@ -58,20 +58,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RepeatTaskTable = ({ editIsCompleted, tasks }) => {
+const RepeatTaskTable = ({ editTask, tasks }) => {
   const history = useHistory();
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
-  // const [checkBox, toggleCheckBox] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  const handleRowClick = (e, taskId, isCompleted) => {
+  const handleRowClick = (e, task) => {
     if (e.target.type === 'checkbox') {
+      // @todo Handle streak/streak date updates
       // Make task complete
-      editIsCompleted(taskId, { isCompleted: !isCompleted });
+      editTask(task._id, { ...task, isCompleted: !task.isCompleted });
     } else {
       // Redirect to edit task page with task id
-      history.push(`/edittask/${taskId}`);
+      history.push(`/edittask/${task._id}`);
     }
   };
 
@@ -123,9 +123,7 @@ const RepeatTaskTable = ({ editIsCompleted, tasks }) => {
                     <TableRow
                       tabIndex={-1}
                       key={task._id}
-                      onClick={(e) =>
-                        handleRowClick(e, task._id, task.isCompleted)
-                      }
+                      onClick={(e) => handleRowClick(e, task)}
                       className={
                         // task.isCompleted ? 'table-rows disabled' : 'table-rows'
                         task.active && !task.isCompleted
@@ -166,7 +164,7 @@ const RepeatTaskTable = ({ editIsCompleted, tasks }) => {
 };
 
 RepeatTaskTable.propTypes = {
-  editIsCompleted: PropTypes.func.isRequired,
+  editTask: PropTypes.func.isRequired,
 };
 
-export default connect(null, { editIsCompleted })(RepeatTaskTable);
+export default connect(null, { editTask })(RepeatTaskTable);
