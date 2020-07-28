@@ -35,31 +35,14 @@ export const getTask = (id) => async (dispatch) => {
 
 // Get all tasks
 export const getTasks = () => async (dispatch) => {
-  // Conversion from milliseconds to days
-  const msDay = 1000 * 60 * 60 * 24;
-
-  const today = new Date();
-
   try {
     const res = await axios.get('/api/tasks');
 
     // Map through res data to add active property
     const tasks = res.data.map((task) => {
-      let active = false;
-      const startDate = new Date(task.startDate);
+      let active = checkIfActive(task);
 
-      if (today >= startDate) {
-        if (task.isRepeating) {
-          // Make task active if the take falls within its repeat cycle
-          let daysBetweenRepeat = Math.ceil((startDate - today) / msDay);
-
-          if (daysBetweenRepeat % task.repeatOccurence === 0) {
-            active = true;
-          }
-        } else {
-          active = true;
-        }
-      }
+      // @todo Check if streak is broken
 
       return { ...task, active: active };
     });
@@ -185,3 +168,27 @@ export const deleteTask = (id, completed = false) => async (dispatch) => {
 export const resetLoading = () => (dispatch) => {
   dispatch({ type: RESET_TASK_LOAD });
 };
+
+// HELPER FUNCTIONS
+
+// Calculation dates to determine if task is active
+function checkIfActive(task) {
+  const today = new Date().getDate();
+
+  const startDate = new Date(task.startDate).getUTCDate();
+
+  if (today >= startDate) {
+    // Make task active if the date falls within its repeat cycle
+    if (task.isRepeating) {
+      let daysBetweenRepeat = today - startDate;
+      console.log(task.name, daysBetweenRepeat, startDate, today);
+      if (daysBetweenRepeat % task.repeatOccurence === 0) {
+        return true;
+      }
+    } else {
+      return true;
+    }
+  }
+
+  return false;
+}
