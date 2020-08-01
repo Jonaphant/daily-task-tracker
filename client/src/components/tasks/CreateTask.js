@@ -46,7 +46,17 @@ const CreateTask = ({ createTask }) => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    createTask({ name, description, startDate, isRepeating, repeatOccurence });
+    // Parse date in local time instead of UTC
+    const startDateWithTZ = new Date(startDate.replace(/-/g, '/'));
+
+    createTask({
+      name,
+      description,
+      startDate: startDateWithTZ,
+      isRepeating,
+      repeatOccurence,
+    });
+
     setTimeout(() => {
       history.push('/dashboard');
     }, 1000);

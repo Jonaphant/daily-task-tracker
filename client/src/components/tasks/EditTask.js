@@ -70,7 +70,7 @@ const EditTask = ({
       setFormData({
         name: !task.name ? '' : task.name,
         description: !task.description ? '' : task.description,
-        startDate: moment.utc(task.startDate).format('YYYY-MM-DD'),
+        startDate: moment(task.startDate).format('YYYY-MM-DD'),
         isRepeating: !task.isRepeating ? false : task.isRepeating,
         repeatOccurence: !task.repeatOccurence ? false : task.repeatOccurence,
         streak: !task.streak ? 0 : task.streak,
@@ -91,10 +91,14 @@ const EditTask = ({
   // Save edited task data
   const onSubmit = (e) => {
     e.preventDefault();
+
+    // Parse date in local time instead of UTC
+    const startDateWithTZ = new Date(startDate.replace(/-/g, '/'));
+
     editTask(taskId, {
       name,
       description,
-      startDate,
+      startDate: startDateWithTZ,
       isRepeating,
       repeatOccurence,
       streak,
