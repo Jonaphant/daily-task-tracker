@@ -9,6 +9,7 @@ import {
 } from './types';
 import { setAlert } from './alert';
 import axios from 'axios';
+import moment from 'moment';
 
 //Get task by id
 export const getTask = (id) => async (dispatch) => {
@@ -173,16 +174,17 @@ export const resetLoading = () => (dispatch) => {
 
 // Calculation dates to determine if task is active
 function checkIfActive(task) {
-  const today = new Date().getDate();
-
-  const startDate = new Date(task.startDate).getUTCDate();
+  const today = new Date();
+  const startDate = new Date(task.startDate);
 
   if (today >= startDate) {
     // Make task active if the date falls within its repeat cycle
     if (task.isRepeating) {
-      let daysBetweenRepeat = today - startDate;
-      console.log(task.name, daysBetweenRepeat, startDate, today);
-      if (daysBetweenRepeat % task.repeatOccurence === 0) {
+      let daysAfterStart = Math.floor(
+        (today - startDate) / (1000 * 60 * 60 * 24)
+      );
+
+      if (daysAfterStart % task.repeatOccurence === 0) {
         return true;
       }
     } else {
