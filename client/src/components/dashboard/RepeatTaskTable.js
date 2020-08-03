@@ -73,6 +73,7 @@ const RepeatTaskTable = ({ editTask, tasks }) => {
       // Update streak date
       if (streakDate === null || streak === 0) {
         newStreakDate = new Date();
+        newStreakDate.setHours(0, 0, 0, 0);
       }
 
       // Increment streak
