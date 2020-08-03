@@ -41,9 +41,44 @@ export const getTasks = () => async (dispatch) => {
 
     // Map through res data to add active property
     const tasks = res.data.map((task) => {
-      let active = checkIfActive(task);
+      let streak = task.streak;
+      let completed = task.isCompleted;
+      let active = isActive(
+        task.startDate,
+        task.repeatOccurence,
+        task.isRepeating
+      );
 
-      // @todo Check if streak is broken
+      // Check if isComplete
+      if (task.isCompleted) {
+        completed = isCompletedCheck(task);
+      }
+
+      // Check if streak is broken
+      if (task.streakDate) {
+        let streakBroken = isStreakBroken(task);
+        if (streakBroken) {
+          streak = 0;
+        }
+      }
+
+      // Update task with new streak and isCompleted
+      if (streak !== task.streak || completed !== task.isCompleted) {
+        dispatch(
+          editTask(task._id, {
+            ...task,
+            streak: streak,
+            isCompleted: completed,
+          })
+        );
+
+        return {
+          ...task,
+          active: active,
+          streak: streak,
+          isCompleted: completed,
+        };
+      }
 
       return { ...task, active: active };
     });
@@ -173,24 +208,57 @@ export const resetLoading = () => (dispatch) => {
 // HELPER FUNCTIONS
 
 // Calculation dates to determine if task is active
-function checkIfActive(task) {
+function isActive(taskStartDate, repeatOccurence, isRepeating) {
   const today = new Date();
-  const startDate = new Date(task.startDate);
+  const startDate = new Date(taskStartDate);
 
   if (today >= startDate) {
     // Make task active if the date falls within its repeat cycle
-    if (task.isRepeating) {
+    if (isRepeating) {
       let daysAfterStart = Math.floor(
         (today - startDate) / (1000 * 60 * 60 * 24)
       );
 
-      if (daysAfterStart % task.repeatOccurence === 0) {
-        return true;
-      }
+      return daysAfterStart % repeatOccurence === 0;
     } else {
       return true;
     }
   }
 
   return false;
+}
+
+function isStreakBroken(task) {
+  let potentialStreaks = calcPotentialStreaks(
+    task.streakDate,
+    task.repeatOccurence
+  );
+
+  return potentialStreaks - task.streak >= 2;
+}
+
+function isCompletedCheck(task) {
+  let potentialStreaks = calcPotentialStreaks(
+    task.streakDate,
+    task.repeatOccurence
+  );
+
+  if (potentialStreaks > task.streak) {
+    return false;
+  }
+
+  return task.isCompleted;
+}
+
+function calcPotentialStreaks(taskStreakDate, repeatOccurence) {
+  const today = new Date().setDate();
+  const streakDate = new Date(taskStreakDate);
+  const firstDayOffset = 1;
+
+  // Calculate days that have passed after streak date
+  const daysAfterStreakStart = Math.floor(
+    (today - streakDate) / (1000 * 60 * 60 * 24)
+  );
+
+  return Math.ceil((daysAfterStreakStart + firstDayOffset) / repeatOccurence);
 }
