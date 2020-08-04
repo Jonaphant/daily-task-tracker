@@ -9,7 +9,6 @@ import {
 } from './types';
 import { setAlert } from './alert';
 import axios from 'axios';
-import moment from 'moment';
 
 //Get task by id
 export const getTask = (id) => async (dispatch) => {
@@ -56,8 +55,7 @@ export const getTasks = () => async (dispatch) => {
 
       // Check if streak is broken
       if (task.streakDate) {
-        let streakBroken = isStreakBroken(task);
-        if (streakBroken) {
+        if (isStreakBroken(task)) {
           streak = 0;
         }
       }
