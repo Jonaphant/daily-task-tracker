@@ -249,7 +249,7 @@ function isCompletedCheck(task) {
 }
 
 function calcPotentialStreaks(taskStreakDate, repeatOccurence) {
-  const today = new Date().setDate();
+  const today = new Date();
   const streakDate = new Date(taskStreakDate);
   const firstDayOffset = 1;
 
