@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb+srv://jonsoup:2t7pzlbgyrFvv1Ys@dailytasktracker-32xwy.mongodb.net/dailytasktracker?retryWrites=true&w=majority",
+  "jwtSecret": "dailysecrettoken"
+}
